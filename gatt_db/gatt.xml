@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<gatt prefix="GATTDB_">
+
+    <!-- Generic Access Service -->
+    <!-- https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.generic_access.xml -->
+    <service uuid="1800">
+
+        <!-- Device Name -->
+        <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.device_name.xml -->
+        <characteristic uuid="2a00">
+            <properties read="true" const="true" />
+            <value>Blue Gecko GCC</value><!-- TODO:: Set value or change type to "user" and add handling for it -->
+        </characteristic>
+
+        <!-- Appearance -->
+        <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.appearance.xml -->
+        <characteristic uuid="2a01">
+            <properties read="true" const="true" />
+            <value type="hex">0000</value><!-- TODO:: Set value or change type to "user" and add handling for it -->
+        </characteristic>
+
+    </service>
+
+
+</gatt>

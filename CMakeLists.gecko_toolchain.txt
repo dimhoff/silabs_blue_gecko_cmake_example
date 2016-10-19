@@ -1,0 +1,65 @@
+################################################################################
+# Detect if all required Simplicity Studio packages are installed
+################################################################################
+# TODO: get direct URLs to install without Simplicity
+set(TOOLCHAIN_ROOT "${SIMPLICITY_STUDIO_ROOT}/developer/toolchains/gnu_arm/4.9_2015q3")
+if (NOT IS_DIRECTORY "${TOOLCHAIN_ROOT}")
+	# NOTE: Yes, you really want that specific version to prevent linking issues
+	message(FATAL_ERROR "Please install 'GNU ARM Toolchain (v4.9.2015.q3)' in Simplicity Studio")
+endif (NOT IS_DIRECTORY "${TOOLCHAIN_ROOT}")
+
+set(BLE_SDK_ROOT "${SIMPLICITY_STUDIO_ROOT}/developer/stacks/ble/v2.0.0.0")
+if (NOT IS_DIRECTORY "${BLE_SDK_ROOT}")
+	message(FATAL_ERROR "Please install 'Bluetooth Smart SDK - v2.0.0.0' in Simplicity Studio")
+endif (NOT IS_DIRECTORY "${BLE_SDK_ROOT}")
+set(GECKO_BGBUILD "${BLE_SDK_ROOT}/protocol/bluetooth_2.0/bin/bgbuild")
+
+set(GECKO_STARTUP "${BLE_SDK_ROOT}/platform/Device/SiliconLabs/EFR32MG1P/Source/GCC/startup_efr32mg1p.S")
+set(GECKO_LINKER_SCRIPT "${BLE_SDK_ROOT}/platform/Device/SiliconLabs/EFR32MG1P/Source/GCC/efr32mg1p.ld")
+#FIXME: The statup file and linker script provided in the BLE SDK don't work...
+set(GECKO_STARTUP "${CMAKE_SOURCE_DIR}/gcc/startup_efr32mg1p.S")
+set(GECKO_LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/gcc/efr32mg1p.ld")
+
+
+################################################################################
+# Toolchain file:
+# See "Cross Compiling" in cmake-toolchains(7)
+################################################################################
+include(CMakeForceCompiler)
+
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR cortex-m4)
+set(CMAKE_SYSTEM_VERSION 1)
+
+# specify the cross compiler
+CMAKE_FORCE_C_COMPILER(  "${TOOLCHAIN_ROOT}/bin/arm-none-eabi-gcc" GNU)
+CMAKE_FORCE_CXX_COMPILER("${TOOLCHAIN_ROOT}/bin/arm-none-eabi-g++" GNU)
+set(CMAKE_OBJCOPY        "${TOOLCHAIN_ROOT}/bin/arm-none-eabi-objcopy")
+set(CMAKE_OBJDUMP        "${TOOLCHAIN_ROOT}/bin/arm-none-eabi-objdump")
+
+# TODO: is this useful?
+set(CMAKE_FIND_ROOT_PATH "${SIMPLICITY_STUDIO_ROOT}")
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+################################################################################
+# Blue Gecko compiler configuration
+################################################################################
+add_definitions(-D__NO_SYSTEM_INIT -DEFR32BG1B232F256GM48)
+set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -march=armv7e-m -mthumb -Os -fno-short-enums -gdwarf-2" CACHE STRING "" FORCE)
+set(CMAKE_EXE_LINKER_FLAGS "-T${GECKO_LINKER_SCRIPT} --specs=nosys.specs -Wl,-no-wchar-size-warning,--no-enum-size-warning" CACHE STRING "" FORCE)
+
+set(CMAKE_C_STANDARD_LIBRARIES "${GECKO_STARTUP} \
+	${BLE_SDK_ROOT}/protocol/bluetooth_2.0/lib/binbootloader.o \
+	${BLE_SDK_ROOT}/protocol/bluetooth_2.0/lib/binstack.o \
+	${BLE_SDK_ROOT}/protocol/bluetooth_2.0/lib/stack.a")
+
+set(GECKO_INCLUDES
+	${BLE_SDK_ROOT}/protocol/bluetooth_2.0/ble_stack/inc/
+	 ${BLE_SDK_ROOT}/protocol/bluetooth_2.0/ble_stack/inc/common/
+	 ${BLE_SDK_ROOT}/protocol/bluetooth_2.0/ble_stack/inc/soc/
+	 ${BLE_SDK_ROOT}/platform/Device/SiliconLabs/EFR32BG1B/Include/
+	 ${BLE_SDK_ROOT}/platform/CMSIS/Include/)
+include_directories(${GECKO_INCLUDES})

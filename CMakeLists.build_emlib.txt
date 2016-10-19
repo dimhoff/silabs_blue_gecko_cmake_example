@@ -1,0 +1,49 @@
+################################################################################
+# EMLib
+#TODO: Doc...
+################################################################################
+set(EMLIB_ROOT ${BLE_SDK_ROOT}/platform/emlib)
+
+include_directories(${EMLIB_ROOT}/inc)
+add_library(emlib
+	${EMLIB_ROOT}/src/em_adc.c
+	${EMLIB_ROOT}/src/em_timer.c
+	${EMLIB_ROOT}/src/em_gpcrc.c
+	${EMLIB_ROOT}/src/em_vcmp.c
+	${EMLIB_ROOT}/src/em_ebi.c
+	${EMLIB_ROOT}/src/em_i2c.c
+	${EMLIB_ROOT}/src/em_leuart.c
+	${EMLIB_ROOT}/src/em_acmp.c
+	${EMLIB_ROOT}/src/em_mpu.c
+	${EMLIB_ROOT}/src/em_assert.c
+	${EMLIB_ROOT}/src/em_usart.c
+	${EMLIB_ROOT}/src/em_rtc.c
+	${EMLIB_ROOT}/src/em_aes.c
+	${EMLIB_ROOT}/src/em_gpio.c
+	${EMLIB_ROOT}/src/em_opamp.c
+	${EMLIB_ROOT}/src/em_lcd.c
+	${EMLIB_ROOT}/src/em_cryotimer.c
+	${EMLIB_ROOT}/src/em_burtc.c
+	${EMLIB_ROOT}/src/em_system.c
+	${EMLIB_ROOT}/src/em_prs.c
+	${EMLIB_ROOT}/src/em_pcnt.c
+	${EMLIB_ROOT}/src/em_wdog.c
+	${EMLIB_ROOT}/src/em_msc.c
+	${EMLIB_ROOT}/src/em_dbg.c
+	${EMLIB_ROOT}/src/em_crypto.c
+	${EMLIB_ROOT}/src/em_letimer.c
+	${EMLIB_ROOT}/src/em_rmu.c
+	${EMLIB_ROOT}/src/em_idac.c
+	${EMLIB_ROOT}/src/em_ldma.c
+	${EMLIB_ROOT}/src/em_lesense.c
+	${EMLIB_ROOT}/src/em_dma.c
+	${EMLIB_ROOT}/src/em_rtcc.c
+	${EMLIB_ROOT}/src/em_dac.c
+	)
+
+# These libraries conflict with BLE SDK's stack.a
+#	${EMLIB_ROOT}/src/em_emu.c
+#	${EMLIB_ROOT}/src/em_cmu.c
+#	${EMLIB_ROOT}/src/em_int.c
+
+

@@ -1,0 +1,71 @@
+################################################################################
+# EMDRV library
+# TODO: Doc....
+################################################################################
+set(EMDRV_ROOT ${BLE_SDK_ROOT}/platform/emdrv)
+
+include_directories(
+	emdrv_config
+	${EMDRV_ROOT}/spidrv/inc
+	${EMDRV_ROOT}/tempdrv/inc
+	${EMDRV_ROOT}/sleep/inc
+	${EMDRV_ROOT}/nvm/inc
+	${EMDRV_ROOT}/rtcdrv/inc
+	${EMDRV_ROOT}/gpiointerrupt/inc
+	${EMDRV_ROOT}/common/inc
+	${EMDRV_ROOT}/dmadrv/inc
+	${EMDRV_ROOT}/ezradiodrv/si4455/inc
+	${EMDRV_ROOT}/ezradiodrv/si4460/inc
+	${EMDRV_ROOT}/ezradiodrv/common/inc
+	${EMDRV_ROOT}/ezradiodrv/common/inc/si4x55
+	${EMDRV_ROOT}/ezradiodrv/common/inc/si4x6x
+	${EMDRV_ROOT}/ezradiodrv/si4461/inc
+	${EMDRV_ROOT}/ezradiodrv/si4468/inc
+	${EMDRV_ROOT}/ezradiodrv/plugins/inc
+	${EMDRV_ROOT}/ezradiodrv/si4463/inc
+	${EMDRV_ROOT}/capsense/inc
+	${EMDRV_ROOT}/uartdrv/inc
+	${EMDRV_ROOT}/ustimer/inc)
+
+set(EMDRV_SPIDRV_SRCS ${EMDRV_ROOT}/spidrv/src/spidrv.c)
+set(EMDRV_TEMPDRV_SRCS ${EMDRV_ROOT}/tempdrv/src/tempdrv.c)
+set(EMDRV_SLEEP_SRCS ${EMDRV_ROOT}/sleep/src/sleep.c)
+set(EMDRV_NVM_SRCS ${EMDRV_ROOT}/nvm/src/nvm.c ${EMDRV_ROOT}/nvm/src/nvm_hal.c)
+set(EMDRV_RTCDRV_SRCS ${EMDRV_ROOT}/rtcdrv/src/rtcdriver.c)
+set(EMDRV_GPIOINTERRUPT_SRCS ${EMDRV_ROOT}/gpiointerrupt/src/gpiointerrupt.c)
+set(EMDRV_DMADRV_SRCS ${EMDRV_ROOT}/dmadrv/src/dmadrv.c)
+set(EMDRV_EZRADIODRV_SRCS
+	${EMDRV_ROOT}/ezradiodrv/common/src/si4x55/ezradio_api_lib_add.c
+	${EMDRV_ROOT}/ezradiodrv/common/src/ezradio_hal.c
+	${EMDRV_ROOT}/ezradiodrv/common/src/si4x6x/ezradio_api_lib_add.c
+	${EMDRV_ROOT}/ezradiodrv/common/src/ezradio_comm.c
+	${EMDRV_ROOT}/ezradiodrv/common/src/ezradio_api_lib.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_pn9_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_receive_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_crcerror_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_unmod_carrier_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_plugin_manager.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_auto_ack_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_direct_receive_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_direct_transmit_plugin.c
+	${EMDRV_ROOT}/ezradiodrv/plugins/src/ezradio_transmit_plugin.c
+	)
+set(EMDRV_CAPSENSE_SRCS
+	${EMDRV_ROOT}/capsense/src/capsense_lesense.c
+	${EMDRV_ROOT}/capsense/src/capsense.c
+	${EMDRV_ROOT}/capsense/src/capsense_acmp.c
+	)
+set(EMDRV_UARTDRV_SRCS ${EMDRV_ROOT}/uartdrv/src/uartdrv.c)
+set(EMDRV_USTIMER_SRCS ${EMDRV_ROOT}/ustimer/src/ustimer.c)
+
+#FIXME: DISABLE module that don't compile
+set(EMDRV_EZRADIODRV_SRCS)
+set(EMDRV_CAPSENSE_SRCS)
+
+add_library(emdrv ${EMDRV_SPIDRV_SRCS} ${EMDRV_TEMPDRV_SRCS}
+	${EMDRV_SLEEP_SRCS} ${EMDRV_NVM_SRCS} ${EMDRV_RTCDRV_SRCS}
+	${EMDRV_GPIOINTERRUPT_SRCS} ${EMDRV_DMADRV_SRCS}
+	${EMDRV_EZRADIODRV_SRCS} ${EMDRV_CAPSENSE_SRCS} ${EMDRV_UARTDRV_SRCS}
+	${EMDRV_USTIMER_SRCS})
+
+
