@@ -33,9 +33,22 @@ need to install at least the "Bluetooth Smart SDK - v2.0.0.0" and
 There are two important configuration variable available:
  - SIMPLICITY_STUDIO_ROOT: This should point to the path where Simplicity
    Studio is installed. default is: $(HOME)/opt/SimplicityStudio_v4
- - TARGET_BOARD: Specifies the radio board to use.
+ - TARGET_BOARD: Specifies the radio board to use. See CMakeLists.txt for
+   possible values.
 
-## GATT database
+## Building/Loading Firmware
+To build the project run:
+
+    # cd build/
+    # cmake -DSIMPLICITY_STUDIO_ROOT=<path_to_simplicity> -DTARGET_BOARD=BRD4301A ../
+    # make
+
+To load the firmware after build run:
+
+    # make load
+
+## Files
+### GATT database
 In the gatt_db/ directory you'll find the GATT definitions.
 See "UG118: Blue Gecko Bluetooth® Profile Toolkit Developer's Guide" for more
 information.
@@ -43,16 +56,17 @@ information.
 The build system will automatically convert these files into a C file and
 header and will link them into the firmware.
 
-## EMDRV Config
+### EMDRV Config
 The configuration files for the EMDRV library are available in the
 emdrv_config/ directory.
 
 Some parts of EMDRV are disabled in this project because they didn't compile.
 See CMakeLists.build_emdrv.txt.
 
-## InitDevice.c
+### InitDevice.c
 The InitDevice.c file can be generated with the Hardware Configurator in
 Simplicity Studio.
+
 
 ## UART
 This example has a echo service on the UART. Note that by default the
