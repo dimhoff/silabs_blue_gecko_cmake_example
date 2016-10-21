@@ -169,17 +169,18 @@ static void ledBlink(void)
 static void UART_tx_callback(UARTDRV_Handle_t handle, Ecode_t transferStatus, uint8_t *data,
 				UARTDRV_Count_t transferCount)
 {
-	static uint8_t txCnt = 0;
+	static uint32_t txCnt = 0;
 
 	if (transferStatus == ECODE_EMDRV_UARTDRV_OK) {
 		txCnt++;
+		gecko_cmd_gatt_server_write_attribute_value(gattdb_uart_tx_bytes, 0, 4, (uint8_t *) &txCnt);
 	}
 }
 
 static void UART_rx_callback(UARTDRV_Handle_t handle, Ecode_t transferStatus, uint8_t *data,
 				UARTDRV_Count_t transferCount)
 {
-	static uint8_t rxCnt = 0;
+	static uint32_t rxCnt = 0;
 	static uint8_t txByte = 0;
 
 	if (transferStatus == ECODE_EMDRV_UARTDRV_OK) {
@@ -187,6 +188,7 @@ static void UART_rx_callback(UARTDRV_Handle_t handle, Ecode_t transferStatus, ui
 		UARTDRV_Transmit(uart_handle, &txByte, 1 , UART_tx_callback);
 
 		rxCnt++;
+		gecko_cmd_gatt_server_write_attribute_value(gattdb_uart_rx_bytes, 0, 4, (uint8_t *) &rxCnt);
 	}
 
 	/* RX the next byte */

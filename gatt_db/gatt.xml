@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<gatt prefix="GATTDB_">
+<gatt prefix="gattdb_">
 
     <!-- Generic Access Service -->
     <!-- https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.generic_access.xml -->
@@ -10,17 +10,34 @@
         <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.device_name.xml -->
         <characteristic uuid="2a00">
             <properties read="true" const="true" />
-            <value>Blue Gecko GCC</value><!-- TODO:: Set value or change type to "user" and add handling for it -->
+            <value>Uart example</value>
         </characteristic>
 
         <!-- Appearance -->
         <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.appearance.xml -->
         <characteristic uuid="2a01">
             <properties read="true" const="true" />
-            <value type="hex">0000</value><!-- TODO:: Set value or change type to "user" and add handling for it -->
+            <value type="hex">0000</value>
         </characteristic>
 
     </service>
 
+    <!-- UART stats service -->
+    <service uuid="ec2565c6-6e07-49f3-b749-90f7b2d1b06d">
+	    <!-- UART total bytes send -->
+	    <characteristic uuid="7d7c7539-3c15-4c79-8a28-e22f38721275" id="uart_tx_bytes">
+		    <properties read="true" />
+		    <value length="4" type="hex">0</value>
+		    <description>TX Bytes</description>
+	    </characteristic>
+
+	    <!-- UART total bytes received -->
+	    <characteristic uuid="70d1fe21-811b-4fd8-aea0-fc393f1b4e9b" id="uart_rx_bytes">
+		    <properties read="true" />
+		    <value length="4" type="hex">0</value>
+		    <description>RX Bytes</description>
+	    </characteristic>
+
+    </service>
 
 </gatt>
